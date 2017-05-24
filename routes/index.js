@@ -2,6 +2,12 @@ var express = require('express');
 var passport = require('passport');
 var router = express.Router();
 var Poll = require('../models/polls');
+var User = require('../models/user');
+
+var app = express();
+
+
+
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -24,25 +30,31 @@ router.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
-router.get('/createpoll', function(req, res) {
-  res.render('createpoll.ejs');
+
+router.get('/createpoll', isLoggedIn, function(req, res) {
+  res.render('createpoll.ejs', { user: req.user });
 });
 
-router.post('/createpoll', function(req, res) {
-    var newPoll = new Poll();
-    newPoll.polls.question = req.body.question;
-    newPoll.polls.options = req.body.options;
+router.post('/createpoll', isLoggedIn, function(req, res) {
+        var userpoll = req.user;
     
-    newPoll.save(function(err) {
-        if(err) 
+        var newPoll = new Poll();
+        newPoll.polls.question = req.body.question;
+        newPoll.polls.options = req.body.options;
+        newPoll.polls.pollid = userpoll._id;
+    
+          newPoll.save(function(err) {
+          if(err) {
             throw err;
-            
-    });
-    
-    res.redirect('/login');
+          } else {
+            res.redirect('/login');           
+          }
+     });     
 });
 
-
+router.get('/test5', isLoggedIn, function(req, res) {
+  
+});
 
 router.post('/signup', passport.authenticate('local-signup', {
   successRedirect: '/profile',
