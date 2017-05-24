@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+
+
 var port = process.env.PORT || 3000;
 
 var passport = require('passport');
@@ -17,10 +19,12 @@ var session = require('express-session');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-var configDB = require('./config/database.js');
-mongoose.connect(configDB.url);
+require('dotenv').load();
+
+mongoose.connect(process.env.MONGO_URI);
 
 var app = express();
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

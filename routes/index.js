@@ -1,6 +1,7 @@
 var express = require('express');
 var passport = require('passport');
 var router = express.Router();
+var Poll = require('../models/polls');
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -22,6 +23,26 @@ router.get('/logout', function(req, res) {
   req.logout();
   res.redirect('/');
 });
+
+router.get('/createpoll', function(req, res) {
+  res.render('createpoll.ejs');
+});
+
+router.post('/createpoll', function(req, res) {
+    var newPoll = new Poll();
+    newPoll.polls.question = req.body.question;
+    newPoll.polls.options = req.body.options;
+    
+    newPoll.save(function(err) {
+        if(err) 
+            throw err;
+            
+    });
+    
+    res.redirect('/login');
+});
+
+
 
 router.post('/signup', passport.authenticate('local-signup', {
   successRedirect: '/profile',

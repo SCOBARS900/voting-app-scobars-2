@@ -1,0 +1,21 @@
+<% include partials/head %>
+
+<body>
+    
+  <!-- Begin Container -->
+<div class="container">
+    <form action="/createpoll" method="post">
+    <div class="form-group">
+      <label for="question">Question:</label>
+      <input type="text" class="form-control" id="question" name="question" placeholder="Enter question">
+    </div>
+    <div class="form-group">
+      <label for="options">Answers (Please seperate answers with a semi-colon):</label>
+      <input type="text" class="form-control" id="options" name="options" placeholder="Enter answers seperated by ;">
+    </div>
+    <input type="submit" value="Submit" class="btn btn-default">
+  </form>
+</div>
+  <!-- /.container -->
+</body>
+</html>
