@@ -37,11 +37,17 @@ router.get('/createpoll', isLoggedIn, function(req, res) {
 
 router.post('/createpoll', isLoggedIn, function(req, res) {
         var userpoll = req.user;
+        var splitedOptions = req.body.options.split('/');
+        
     
         var newPoll = new Poll();
         newPoll.polls.question = req.body.question;
-        newPoll.polls.options = req.body.options;
-        newPoll.polls.pollid = userpoll._id;
+        for (i = 0; i < splitedOptions.length; i++) {
+          newPoll.polls.options.push({ 'title': splitedOptions[i] });  
+        }
+        
+        newPoll.polls.creationDate = new Date();
+        newPoll.polls.userid = userpoll._id;
     
           newPoll.save(function(err) {
           if(err) {
@@ -52,9 +58,6 @@ router.post('/createpoll', isLoggedIn, function(req, res) {
      });     
 });
 
-router.get('/test5', isLoggedIn, function(req, res) {
-  
-});
 
 router.post('/signup', passport.authenticate('local-signup', {
   successRedirect: '/profile',
