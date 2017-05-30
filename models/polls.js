@@ -8,6 +8,11 @@ var pollSchema = mongoose.Schema({
         title: String,
         votes: { type: Number, default: 0 }
     }],
+    voteUsers: [{
+        voteUserId: String,
+        voteUserIp: String,
+        allreadyVote: { type: String, default: "no"},
+    }],
     creationDate: Date,
     userid: String  
   },

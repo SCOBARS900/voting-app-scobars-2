@@ -30,6 +30,13 @@ router.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
+router.get('/mypolls', isLoggedIn, function(req, res) {
+    var currentUser = req.user;
+    var userLink = "mypolls/" + currentUser._id; 
+    res.redirect(userLink);
+});
+
+
 router.get('/mypolls/:userpoll', isLoggedIn, function(req, res) {
    var allQuestions = [];
    var allPollsId = [];
@@ -49,12 +56,32 @@ router.get('/mypolls/:userpoll', isLoggedIn, function(req, res) {
 
 });
 
+router.get('/allpolls', isLoggedIn, function(req, res) {
+   var allQuestions = [];
+   var allPollsId = [];
+    
+   Poll.find({ }, function (err, data) {
+       if(err) {
+           return res.send("Error reading database");
+       } else {
+           for (i = 0; i < data.length; i++) {
+             allQuestions[i] = data[i].polls.question;
+             allPollsId[i] = data[i]._id;
+           }
+       }
+       
+       res.render('allpoll.ejs', { question: allQuestions, pollid: allPollsId });        
+   });
+
+});
+
 router.get('/allpolls/:specificpoll', isLoggedIn, function(req, res) {
    var questionTitle = "";
    var allOptions = [];
-   var id = req.params.id;
+   currentPollId = req.params.specificpoll;
+   
     
-   Poll.findOne({ '_id': req.params.specificpoll }, function (err, data) {
+   Poll.findOne({ '_id': currentPollId }, function (err, data) {
        if(err) {
            return res.send("Error reading database");
        } else {
@@ -69,10 +96,32 @@ router.get('/allpolls/:specificpoll', isLoggedIn, function(req, res) {
 
 });
 
-
-
-
-
+router.post('/insertop', isLoggedIn, function(req, res) {
+   
+   var newOption = req.body.newOption;
+   var linkSpecificPoll = '/allpolls/' + currentPollId;
+    
+   var newOptionArray = [{
+        title: newOption,
+    }];
+    
+    Poll.findOne({ '_id': currentPollId }, function (err, data) {
+       if(err) {
+           throw err;
+       } else {
+          data.polls.options.push(newOptionArray[0]);
+          data.save(function(err) {
+            if (err) {
+                throw err;
+            } else {
+                res.redirect(linkSpecificPoll);
+            }
+        });
+       }
+        
+    });
+  
+});
 
 
 
@@ -101,20 +150,20 @@ router.post('/createpoll', isLoggedIn, function(req, res) {
           if(err) {
             throw err;
           } else {
-            res.redirect('/login');           
+            res.redirect('/allpolls');           
           }
      });     
 });
 
 
 router.post('/signup', passport.authenticate('local-signup', {
-  successRedirect: '/profile',
+  successRedirect: '/mypolls',
   failureRedirect: '/signup',
   failureFlash: true,
 }));
 
 router.post('/login', passport.authenticate('local-login', {
-  successRedirect: '/profile',
+  successRedirect: '/mypolls',
   failureRedirect: '/login',
   failureFlash: true,
 }));
@@ -122,21 +171,21 @@ router.post('/login', passport.authenticate('local-login', {
 router.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
 
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {
-  successRedirect: '/profile',
+  successRedirect: '/mypolls',
   failureRedirect: '/',
 }));
 
 router.get('/auth/twitter', passport.authenticate('twitter'));
 
 router.get('/auth/twitter/callback', passport.authenticate('twitter', {
-  successRedirect: '/profile',
+  successRedirect: '/mypolls',
   failureRedirect: '/',
 }));
 
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/auth/google/callback', passport.authenticate('google', {
-  successRedirect: '/profile',
+  successRedirect: '/mypolls',
   failureRedirect: '/',
 }));
 
