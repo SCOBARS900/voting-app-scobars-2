@@ -75,12 +75,19 @@ router.get('/allpolls', isLoggedIn, function(req, res) {
 
 });
 
-router.get('/allpolls/:specificpoll', isLoggedIn, function(req, res) {
+router.get('/allpolls/:specificpoll', function(req, res) {
    var questionTitle = "";
    var allOptions = [];
    currentPollId = req.params.specificpoll;
    
+    if (req.user != undefined) {
+        currentUserId = req.user._id;
+    } else {
+        currentUserId = "unauthenticated";
+    }
     
+   
+   
    Poll.findOne({ '_id': currentPollId }, function (err, data) {
        if(err) {
            return res.send("Error reading database");
@@ -91,7 +98,7 @@ router.get('/allpolls/:specificpoll', isLoggedIn, function(req, res) {
            }
        }
     
-      res.render('specificpoll.ejs', { title: questionTitle, options: allOptions });      
+      res.render('specificpoll.ejs', { title: questionTitle, options: allOptions, userid: currentUserId });      
    });
 
 });
