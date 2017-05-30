@@ -1,0 +1,30 @@
+<% include partials/head %>
+
+
+<body>
+    
+  <!-- Begin Container -->
+<div class="container">
+   
+    
+    
+    
+   <h1 class=" fa fa-user">Collection</h1><br>
+    <strong>Question:</strong> <%= title %><br> 
+    <% if (options.length > 0) { %>
+    <%    for (i=0; i < options.length; i++) { %>
+         <p>Option: <%= options[i].title %></p> 
+         <p>Votes: <%= options[i].votes %></p> <br>
+    <%    } %>
+        
+    <% } %>
+    
+    
+    
+    
+    
+    
+     </div>
+  <!-- /.container -->
+</body>
+</html>

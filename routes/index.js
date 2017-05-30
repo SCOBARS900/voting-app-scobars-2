@@ -30,6 +30,54 @@ router.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
+router.get('/mypolls/:userpoll', isLoggedIn, function(req, res) {
+   var allQuestions = [];
+   var allPollsId = [];
+    
+   Poll.find({ 'polls.userid': req.params.userpoll }, function (err, data) {
+       if(err) {
+           return res.send("Error reading database");
+       } else {
+           for (i = 0; i < data.length; i++) {
+             allQuestions[i] = data[i].polls.question;
+             allPollsId[i] = data[i]._id;
+           }
+       }
+       
+       res.render('mypoll.ejs', { question: allQuestions, pollid: allPollsId });        
+   });
+
+});
+
+router.get('/allpolls/:specificpoll', isLoggedIn, function(req, res) {
+   var questionTitle = "";
+   var allOptions = [];
+   var id = req.params.id;
+    
+   Poll.findOne({ '_id': req.params.specificpoll }, function (err, data) {
+       if(err) {
+           return res.send("Error reading database");
+       } else {
+          questionTitle = data.polls.question;
+          for (i = 0; i < data.polls.options.length; i++) {
+             allOptions[i] = data.polls.options[i];
+           }
+       }
+    
+      res.render('specificpoll.ejs', { title: questionTitle, options: allOptions });      
+   });
+
+});
+
+
+
+
+
+
+
+
+
+
 
 router.get('/createpoll', isLoggedIn, function(req, res) {
   res.render('createpoll.ejs', { user: req.user });

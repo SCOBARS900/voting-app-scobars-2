@@ -1,0 +1,27 @@
+<% include partials/head %>
+
+
+<body>
+    
+  <!-- Begin Container -->
+<div class="container">
+   
+    
+    
+    
+   <h1 class=" fa fa-user">Collection</h1><br>
+     
+    <% if (question.length > 0) { %>
+    <%    for (i=0; i < question.length; i++) { %>
+        <a href="/allpolls/<%= pollid[i] %>"><strong>Question</strong>: <%= question[i] %></a><br>   
+    <%    } %>
+        
+    <% } %>
+    
+    
+    
+    
+     </div>
+  <!-- /.container -->
+</body>
+</html>
