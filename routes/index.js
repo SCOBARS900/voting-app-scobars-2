@@ -56,7 +56,7 @@ router.get('/mypolls/:userpoll', isLoggedIn, function(req, res) {
 
 });
 
-router.get('/allpolls', isLoggedIn, function(req, res) {
+router.get('/allpolls', function(req, res) {
    var allQuestions = [];
    var allPollsId = [];
     
@@ -79,12 +79,15 @@ router.get('/allpolls/:specificpoll', function(req, res) {
    var questionTitle = "";
    var allOptions = [];
    currentPollId = req.params.specificpoll;
+   pollCreatorId = "";
    
     if (req.user != undefined) {
         currentUserId = req.user._id;
     } else {
         currentUserId = "unauthenticated";
     }
+    
+    
     
    
    
@@ -96,9 +99,12 @@ router.get('/allpolls/:specificpoll', function(req, res) {
           for (i = 0; i < data.polls.options.length; i++) {
              allOptions[i] = data.polls.options[i];
            }
+          pollCreatorId = data.polls.userid;
+           
        }
     
-      res.render('specificpoll.ejs', { title: questionTitle, options: allOptions, userid: currentUserId });      
+       
+      res.render('specificpoll.ejs', { title: questionTitle, options: allOptions, userid: currentUserId, pollcreator: pollCreatorId });      
    });
 
 });
@@ -127,6 +133,20 @@ router.post('/insertop', isLoggedIn, function(req, res) {
        }
         
     });
+  
+});
+
+router.post('/deletepoll', isLoggedIn, function(req, res) {
+    
+    Poll.remove({ '_id': currentPollId }, function (err, data) {
+       if(err) {
+           throw err;
+       } else {
+           res.redirect('/mypolls');
+       }
+        
+    });
+    
   
 });
 

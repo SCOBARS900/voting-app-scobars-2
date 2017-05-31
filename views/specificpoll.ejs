@@ -36,7 +36,16 @@
 </div>
    <%  } %>
     
-    
+<br>    
+
+     <% if(userid == pollcreator) { %>
+<div>
+    <form action='/deletepoll' method="post" >
+    <input type="submit" value="Delete" class="btn btn-default">
+</form>
+
+</div>    
+    <%  } %>
     
     
      </div>
