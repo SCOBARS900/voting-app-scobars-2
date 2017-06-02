@@ -1,18 +1,47 @@
 <% include partials/head %>
 
   <body>
-    <div class="col-sm-8 col-sm-offset-2">
-      <div class="jumbotron text-center">
-        <h1>Express Authentication</h1>
-        <p class="lead">A simple authentication app built with express, node & passport.</p>
+      
+    <div class="container">
+    
+      <div id="presentingApp" class="text-center">
+          
+        <h1>Voting App</h1>
+        <p>This interface was designed to allow users to create their own polls and share them with friends. As unauthenticated user you can vote and check all polls. For a full experience you have to be a authenticated user, you can do it via facebook, twitter, google or you can signup with a email.</p>
+        <p>As a authenticated user you will be able to: Create polls, access your collection of polls, add new options in other ones polls or in your own polls and delete polls of your collection</p>
+        
 
         <a href="/login" class="btn btn-default"><span class="fa fa-sign-in"></span> Login</a>
         <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Signup</a>
         <a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
         <a href="/auth/twitter" class="btn btn-info"><span class="fa fa-twitter"></span> Twitter</a>
         <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
+          
+        </div>  
+        
+        <a href="/createpoll" class="btn btn-default">Create Poll</a>
+        <a href="/mypolls" class="btn btn-default">My Collection</a>
+        <a href="/logout" class="btn btn-default">Logout</a>
+          
+          
+    <div class="text-center">
+            <h2>All Polls</h2>
+     
+    <% if (question.length > 0) { %>
+    <%    for (i=0; i < question.length; i++) { %>
+        <div class="pollsTable">
+        <a class="allPolls" href="/allpolls/<%= pollid[i] %>"><%= question[i] %></a>
+        </div>
+    <%    } %>
+        
+    <% } %>
+    
+    
+    </div>
 
-      </div>
+     
+    
+        
      
     </div>
   </body>

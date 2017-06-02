@@ -5,21 +5,27 @@
     
   <!-- Begin Container -->
 <div class="container">
-   
+    <div class="defaultMenu">
+    <a href="/createpoll" class="btn btn-default">Create Poll</a>
+    <a href="/mypolls" class="btn btn-default">My Collection</a>
+    <a href="/allpolls" class="btn btn-default">All Polls</a>
+    <a href="/logout" class="btn btn-default">Logout</a>
+    </div>
     
-    
-    
-   <h1 class=" fa fa-user">Collection</h1><br>
+    <div class="text-center">
+    <h1>All Polls</h1>
      
     <% if (question.length > 0) { %>
     <%    for (i=0; i < question.length; i++) { %>
-        <a href="/allpolls/<%= pollid[i] %>"><strong>Question</strong>: <%= question[i] %></a><br>   
+        <div class="pollsTable">
+        <a class="allPolls" href="/allpolls/<%= pollid[i] %>"><%= question[i] %></a>
+        </div>
     <%    } %>
         
     <% } %>
     
     
-    
+    </div>
     
      </div>
   <!-- /.container -->

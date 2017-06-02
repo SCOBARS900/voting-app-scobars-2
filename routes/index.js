@@ -10,7 +10,22 @@ var app = express();
 
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  var allQuestions = [];
+   var allPollsId = [];
+    
+   Poll.find({ }, function (err, data) {
+       if(err) {
+           return res.send("Error reading database");
+       } else {
+           for (i = 0; i < data.length; i++) {
+             allQuestions[i] = data[i].polls.question;
+             allPollsId[i] = data[i]._id;
+           }
+       }
+       
+       res.render('index.ejs', { question: allQuestions, pollid: allPollsId });        
+   });
+
 });
 
 router.get('/login', function(req, res, next) {
@@ -28,6 +43,34 @@ router.get('/profile', isLoggedIn, function(req, res) {
 router.get('/logout', function(req, res) {
   req.logout();
   res.redirect('/');
+});
+
+
+router.get('/createpoll', isLoggedIn, function(req, res) {
+  res.render('createpoll.ejs', { user: req.user });
+});
+
+router.post('/createpoll', isLoggedIn, function(req, res) {
+        var userpoll = req.user;
+        var splitedOptions = req.body.options.split('/');
+        
+    
+        var newPoll = new Poll();
+        newPoll.polls.question = req.body.question;
+        for (i = 0; i < splitedOptions.length; i++) {
+          newPoll.polls.options.push({ 'title': splitedOptions[i] });  
+        }
+        
+        newPoll.polls.creationDate = new Date();
+        newPoll.polls.userid = userpoll._id;
+    
+          newPoll.save(function(err) {
+          if(err) {
+            throw err;
+          } else {
+            res.redirect('/allpolls');           
+          }
+     });     
 });
 
 router.get('/mypolls', isLoggedIn, function(req, res) {
@@ -78,36 +121,104 @@ router.get('/allpolls', function(req, res) {
 router.get('/allpolls/:specificpoll', function(req, res) {
    var questionTitle = "";
    var allOptions = [];
+   ipU = req.ip;
    currentPollId = req.params.specificpoll;
    pollCreatorId = "";
-   
+   optionsIdArray = [];
+   allVotesNumber = [];
+   allVotesTitle = [];
+   var alreadyVote = false;
+    
     if (req.user != undefined) {
         currentUserId = req.user._id;
     } else {
-        currentUserId = "unauthenticated";
+        currentUserId = "unauthenticate";
     }
     
-    
-    
-   
-   
    Poll.findOne({ '_id': currentPollId }, function (err, data) {
        if(err) {
            return res.send("Error reading database");
        } else {
           questionTitle = data.polls.question;
+          pollCreatorId = data.polls.userid;
+           
           for (i = 0; i < data.polls.options.length; i++) {
              allOptions[i] = data.polls.options[i];
+             optionsIdArray[i] =  data.polls.options[i]._id;
+             allVotesNumber[i] = data.polls.options[i].votes;
+             allVotesTitle[i] = data.polls.options[i].title; 
            }
-          pollCreatorId = data.polls.userid;
+           
+          
+           if (data.polls.voteUsers.length > 0) {
+           for (z = 0; z < data.polls.voteUsers.length; z++) {
+               if (data.polls.voteUsers[z].voteUserIp == ipU) {
+                  alreadyVote = true; 
+               }    
+           }
+           }
            
        }
     
        
-      res.render('specificpoll.ejs', { title: questionTitle, options: allOptions, userid: currentUserId, pollcreator: pollCreatorId });      
+      res.render('specificpoll.ejs', { title: questionTitle, options: allOptions, userid: currentUserId, pollcreator: pollCreatorId, optionsid: optionsIdArray, alreadyvote: alreadyVote, votesnumber: allVotesNumber, votestitle: allVotesTitle });      
    });
 
 });
+
+
+
+
+router.post('/voteop', function(req, res) {
+   var optionID = req.body.polloutput; 
+   var linkSpecificPoll = '/allpolls/' + currentPollId;
+   var alreadyVote = false;
+   
+   var newVoteUserArray = [{
+       voteUserIp: ipU,
+       voteUserId: currentUserId,
+       voteUserDate: new Date()
+    }];
+    
+   Poll.findOne({ '_id': currentPollId }, function (err, data) {
+       if(err) {
+           return res.send("Error reading database");
+       } else {
+           if (data.polls.voteUsers.length > 0) {
+           for (z = 0; z < data.polls.voteUsers.length; z++) {
+               if (data.polls.voteUsers[z].voteUserIp == ipU) {
+                  alreadyVote = true;
+               }   
+           }
+   
+           }
+           
+           if (!alreadyVote) {
+               data.polls.voteUsers.push(newVoteUserArray[0]);
+               for (i = 0; i < data.polls.options.length; i++) {
+                 if (data.polls.options[i]._id == optionID) {
+                     data.polls.options[i].votes += 1;
+                 }
+                 
+              }
+           }
+           
+           
+           data.save(function(err) {
+                 if (err) {
+                  throw err;
+                 } else {
+                 res.redirect(linkSpecificPoll);
+                 }
+           });  
+         
+       }
+        
+});
+    
+});
+
+
 
 router.post('/insertop', isLoggedIn, function(req, res) {
    
@@ -136,6 +247,7 @@ router.post('/insertop', isLoggedIn, function(req, res) {
   
 });
 
+
 router.post('/deletepoll', isLoggedIn, function(req, res) {
     
     Poll.remove({ '_id': currentPollId }, function (err, data) {
@@ -155,32 +267,7 @@ router.post('/deletepoll', isLoggedIn, function(req, res) {
 
 
 
-router.get('/createpoll', isLoggedIn, function(req, res) {
-  res.render('createpoll.ejs', { user: req.user });
-});
 
-router.post('/createpoll', isLoggedIn, function(req, res) {
-        var userpoll = req.user;
-        var splitedOptions = req.body.options.split('/');
-        
-    
-        var newPoll = new Poll();
-        newPoll.polls.question = req.body.question;
-        for (i = 0; i < splitedOptions.length; i++) {
-          newPoll.polls.options.push({ 'title': splitedOptions[i] });  
-        }
-        
-        newPoll.polls.creationDate = new Date();
-        newPoll.polls.userid = userpoll._id;
-    
-          newPoll.save(function(err) {
-          if(err) {
-            throw err;
-          } else {
-            res.redirect('/allpolls');           
-          }
-     });     
-});
 
 
 router.post('/signup', passport.authenticate('local-signup', {

@@ -5,50 +5,86 @@
     
   <!-- Begin Container -->
 <div class="container">
-   
-    <strong>UserId:</strong> <%= userid %><br>
+    <h1 class="titleV">Voting App</h1>
+   <a href="/createpoll" class="btn btn-default">Create Poll</a>
+    <a href="/mypolls" class="btn btn-default">My Collection</a>
+    <a href="/allpolls" class="btn btn-default">All Polls</a>
+    <a href="/logout" class="btn btn-default">Logout</a>
+    
+    <div class="row">
     
     
-   <h1 class=" fa fa-user">Collection</h1><br>
-    <strong>Question:</strong> <%= title %><br> 
+    <div class="col-sm-6">
+    <div class="question">
+    <strong>Question:</strong><%= title %>
+    </div>
+    <form action='/voteop' method="post">
     <% if (options.length > 0) { %>
     <%    for (i=0; i < options.length; i++) { %>
-         <p>Option: <%= options[i].title %></p> 
-         <p>Votes: <%= options[i].votes %></p> <br>
+            <input type="submit" id="vote<%= i %>" name="<%= optionsid[i]%>" value="<%= options[i].title %>" class="btn btn-default voteButtons"><br>
     <%    } %>
         
-    <% } %>
-   
-    
-    
-    <% if(userid != "unauthenticated") { %> 
-<div>
-<form action='/insertop' method="post">
-    <div class="form-group">
+        <input type="text" id="polloutput" name="polloutput" value="" class="hideme">
         
-      <label for="newOption">New Option: </label>
-      <input type="text" class="form-control" id="newOption" name="newOption" placeholder="Enter new option">
+    <% } %>
+    </form>
+    
+    <% if(alreadyvote) { %> 
+    <p>Already voted</p>
+    <%  } %>
+        
+    <% if(userid != "unauthenticate") { %> 
+        <div>
+        <form action='/insertop' method="post">
+        <div class="form-group">
+        
+          <label for="newOption">New Option: </label>
+          <input type="text" class="form-control" id="newOption" name="newOption" placeholder="Enter new option">
           
         
-    </div>
-    <input type="submit" value="Submit" class="btn btn-default">
-  </form>
-</div>
-   <%  } %>
+        </div>
+        <input type="submit" value="Submit" class="btn btn-success submitButton">
+        </form>
+        </div>
+    <%  } %>
     
 <br>    
 
      <% if(userid == pollcreator) { %>
 <div>
     <form action='/deletepoll' method="post" >
-    <input type="submit" value="Delete" class="btn btn-default">
+    <input type="submit" value="Delete Poll" class="btn btn-danger deleteButton">
 </form>
 
 </div>    
     <%  } %>
     
+    </div>
+        
+     <div class="chart-container col-sm-5 col-sm-offset-1">
+    <canvas id="myChart"></canvas>
+    </div>   
+        
+    
+    </div>
+    
+    <div id="votesNumberArray" class="hideme"><%= votesnumber %></div><br>
+    <div id="votesTitleArray" class="hideme"><%= votestitle %></div>
+    
+
+
+    
+    
     
      </div>
   <!-- /.container -->
+    
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/js/vote.js"></script>
+    
+    
 </body>
 </html>
