@@ -11,7 +11,17 @@ var app = express();
 
 router.get('/', function(req, res, next) {
   var allQuestions = [];
-   var allPollsId = [];
+  var allPollsId = [];
+  var idUserHome;
+  var myCollectionN = 0;
+  totalPollsN = 0;
+  
+    
+  if (req.user != undefined) {
+      idUserHome = req.user._id;
+  } else {
+      idUserHome = "nope";
+  }
     
    Poll.find({ }, function (err, data) {
        if(err) {
@@ -20,11 +30,19 @@ router.get('/', function(req, res, next) {
            for (i = 0; i < data.length; i++) {
              allQuestions[i] = data[i].polls.question;
              allPollsId[i] = data[i]._id;
+             if (data[i].polls.userid == idUserHome) {
+                 myCollectionN += 1;
+             }  
+               
            }
+           totalPollsN = data.length;
+           myCollectionFinal = myCollectionN;
+           
+           res.render('index.ejs', { question: allQuestions, pollid: allPollsId , totalpollsnumber: totalPollsN, totalmycollection: myCollectionN }); 
        }
-       
-       res.render('index.ejs', { question: allQuestions, pollid: allPollsId });        
-   });
+    
+   }); 
+    
 
 });
 
@@ -46,8 +64,40 @@ router.get('/logout', function(req, res) {
 });
 
 
+
+
 router.get('/createpoll', isLoggedIn, function(req, res) {
-  res.render('createpoll.ejs', { user: req.user });
+  var allQuestions = [];
+  var allPollsId = [];
+  var idUserHome;
+  var myCollectionN = 0;
+  totalPollsN = 0;
+  
+    
+  if (req.user != undefined) {
+      idUserHome = req.user._id;
+  } else {
+      idUserHome = "nope";
+  }
+    
+   Poll.find({ }, function (err, data) {
+       if(err) {
+           return res.send("Error reading database");
+       } else {
+           for (i = 0; i < data.length; i++) {
+             allQuestions[i] = data[i].polls.question;
+             allPollsId[i] = data[i]._id;
+             if (data[i].polls.userid == idUserHome) {
+                 myCollectionN += 1;
+             }  
+               
+           }
+           totalPollsN = data.length;
+           
+           
+           res.render('createpoll.ejs', { question: allQuestions, pollid: allPollsId , totalpollsnumber: totalPollsN, totalmycollection: myCollectionN }); 
+       } 
+   }); 
 });
 
 router.post('/createpoll', isLoggedIn, function(req, res) {
@@ -83,6 +133,8 @@ router.get('/mypolls', isLoggedIn, function(req, res) {
 router.get('/mypolls/:userpoll', isLoggedIn, function(req, res) {
    var allQuestions = [];
    var allPollsId = [];
+   var myCollectionN = 0;
+   
     
    Poll.find({ 'polls.userid': req.params.userpoll }, function (err, data) {
        if(err) {
@@ -92,16 +144,28 @@ router.get('/mypolls/:userpoll', isLoggedIn, function(req, res) {
              allQuestions[i] = data[i].polls.question;
              allPollsId[i] = data[i]._id;
            }
+           
+           myCollectionN = data.length;
+           myCollectionFinal = myCollectionN;
+           
        }
        
-       res.render('mypoll.ejs', { question: allQuestions, pollid: allPollsId });        
+       res.render('mypoll.ejs', { question: allQuestions, pollid: allPollsId, totalpollsnumber: totalPollsN, totalmycollection: myCollectionN });        
    });
 
 });
 
 router.get('/allpolls', function(req, res) {
    var allQuestions = [];
-   var allPollsId = [];
+  var allPollsId = [];
+  var idUserHome;
+  var myCollectionN = 0;
+    
+  if (req.user != undefined) {
+      idUserHome = req.user._id;
+  } else {
+      idUserHome = "nope";
+  }
     
    Poll.find({ }, function (err, data) {
        if(err) {
@@ -110,11 +174,18 @@ router.get('/allpolls', function(req, res) {
            for (i = 0; i < data.length; i++) {
              allQuestions[i] = data[i].polls.question;
              allPollsId[i] = data[i]._id;
+             if (data[i].polls.userid == idUserHome) {
+                 myCollectionN += 1;
+             }  
+               
            }
+           totalPollsN = data.length;
+           
+           
+           res.render('allpoll.ejs', { question: allQuestions, pollid: allPollsId , totalpollsnumber: totalPollsN, totalmycollection: myCollectionN }); 
        }
-       
-       res.render('allpoll.ejs', { question: allQuestions, pollid: allPollsId });        
-   });
+    
+   }); 
 
 });
 
@@ -128,6 +199,7 @@ router.get('/allpolls/:specificpoll', function(req, res) {
    allVotesNumber = [];
    allVotesTitle = [];
    var alreadyVote = false;
+   
     
     if (req.user != undefined) {
         currentUserId = req.user._id;
@@ -141,6 +213,7 @@ router.get('/allpolls/:specificpoll', function(req, res) {
        } else {
           questionTitle = data.polls.question;
           pollCreatorId = data.polls.userid;
+             
            
           for (i = 0; i < data.polls.options.length; i++) {
              allOptions[i] = data.polls.options[i];
@@ -161,7 +234,7 @@ router.get('/allpolls/:specificpoll', function(req, res) {
        }
     
        
-      res.render('specificpoll.ejs', { title: questionTitle, options: allOptions, userid: currentUserId, pollcreator: pollCreatorId, optionsid: optionsIdArray, alreadyvote: alreadyVote, votesnumber: allVotesNumber, votestitle: allVotesTitle });      
+      res.render('specificpoll.ejs', { title: questionTitle, options: allOptions, userid: currentUserId, pollcreator: pollCreatorId, optionsid: optionsIdArray, alreadyvote: alreadyVote, votesnumber: allVotesNumber, votestitle: allVotesTitle, totalpollsnumber: totalPollsN, totalmycollection: myCollectionFinal });      
    });
 
 });

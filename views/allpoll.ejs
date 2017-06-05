@@ -5,29 +5,97 @@
     
   <!-- Begin Container -->
 <div class="container">
-    <div class="defaultMenu">
-    <a href="/createpoll" class="btn btn-default">Create Poll</a>
-    <a href="/mypolls" class="btn btn-default">My Collection</a>
-    <a href="/allpolls" class="btn btn-default">All Polls</a>
-    <a href="/logout" class="btn btn-default">Logout</a>
-    </div>
+    
+    <div class="row cardtop">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="card card-stats cardMenu" >
+                        <div class="card-header card-options" data-background-color="green">
+                            <a href="/createpoll">Create Poll</a>
+                        </div>
+                        <div class="card-content">
+                            <p class="category">Instructions</p>
+                            <div class="cardInstructions">
+                            <p class="title intructions">Separate options with "/"</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="card card-stats" >
+                        <div class="card-header card-options" data-background-color="blue">
+                            <a href="/allpolls">All Polls</a>
+                        </div>
+                        <div class="card-content">
+                            <p class="category"><br>Total</p>
+                            <h3 class="title"><%= totalpollsnumber %></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="card card-stats" >
+                        <div class="card-header card-options" data-background-color="purple">
+                            <a href="/mypolls">My Collection</a>
+                        </div>
+                        <div class="card-content">
+                           <p class="category"><br>Total</p>
+                            <h3 class="title"><%= totalmycollection %></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="card card-stats" >
+                        <div class="card-header card-options" data-background-color="orange">
+                            <a href="/logout">Logout</a>
+                        </div>
+                        <div class="card-content">
+                            <p class="category"><br>See Ya</p>
+                            <h3 class="title"><a id="logoutB" href="/logout"><i class="fa fa-sign-out"></i></a></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
     
     <div class="text-center">
-    <h1>All Polls</h1>
+            
+    <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header" data-background-color="blue">
+                        <h4 class="title blueTitle">All Polls</h4>
+                    </div>
+    <div class="card-content table-responsive">
+                        <table class="table">
+                            <thead class="text-danger">
+                                <tr>
+            
+                                    
+                                </tr>
+                            </thead>
+    
      
     <% if (question.length > 0) { %>
-    <%    for (i=0; i < question.length; i++) { %>
-        <div class="pollsTable">
-        <a class="allPolls" href="/allpolls/<%= pollid[i] %>"><%= question[i] %></a>
-        </div>
-    <%    } %>
+    <tbody>
         
+    
+    <%    for (i=0; i < question.length; i++) { %>
+        <tr>
+        
+        <td><a class="allPolls" href="/allpolls/<%= pollid[i] %>"><%= question[i] %></a></td>
+       
+        </tr>
+    <%    } %>
+    
+    </tbody>    
     <% } %>
-    
-    
+                    </table>
+                  </div>
+                </div>
+            </div>
+                  
     </div>
     
-     </div>
+ </div>
   <!-- /.container -->
 </body>
 </html>

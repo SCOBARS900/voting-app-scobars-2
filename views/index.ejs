@@ -4,39 +4,124 @@
       
     <div class="container">
     
-      <div id="presentingApp" class="text-center">
-          
-        <h1>Voting App</h1>
-        <p>This interface was designed to allow users to create their own polls and share them with friends. As unauthenticated user you can vote and check all polls. For a full experience you have to be a authenticated user, you can do it via facebook, twitter, google or you can signup with a email.</p>
-        <p>As a authenticated user you will be able to: Create polls, access your collection of polls, add new options in other ones polls or in your own polls and delete polls of your collection</p>
-        
+        <div class="col-md-12">
+                <div class="card cardtop">
+                    <div class="card-header" data-background-color="grey">
+                        <h4 class="title">Voting App</h4>
+                        <p class="category" id="mainTitle">Design by Julio Escobar</p>
+                    </div>
+                    
+                    <div class="card-content">
+                            <p class="category aboutHome">About</p>
+                            <h4 class="title">This interface was designed to allow users to create polls and share them with friends. As unauthenticated user you can vote and check all polls. For a full experience you have to authenticate, you can do it via facebook, twitter, google or you can signup with a email.<br>
+                            As a authenticated user you will be able to: Create polls, access your collection, add new options in any polls and delete polls of your collection.
+                            </h4> 
+                    </div>
+                    
+                    <div class="card-footer">
+                         <div class="stats">
+                             <a id="loginB" href="/login" class="btn btn-default"><span class="fa fa-sign-in"></span> Login</a>
+                             <a id="signupB" href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Signup</a>
+                            <a id="facebookB" href="/auth/facebook" class="btn btn-default"><span class="fa fa-facebook"></span> Facebook</a>
+                            <a id="twitterB" href="/auth/twitter" class="btn btn-default"><span class="fa fa-twitter"></span> Twitter</a>
+                            <a id="googleB" href="/auth/google" class="btn btn-default"><span class="fa fa-google-plus"></span> Google</a>   
+                        </div>
+      
+                    </div>
+            </div>
+        </div>     
+   </div>   
+      
+      <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="card card-stats cardMenu" >
+                        <div class="card-header card-options" data-background-color="green">
+                            <a href="/createpoll">Create Poll</a>
+                        </div>
+                        <div class="card-content">
+                            <p class="category">Instructions</p>
+                            <div class="cardInstructions">
+                            <p class="title intructions">Separate options with "/"</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="card card-stats" >
+                        <div class="card-header card-options" data-background-color="blue">
+                            <a href="/allpolls">All Polls</a>
+                        </div>
+                        <div class="card-content">
+                            <p class="category"><br>Total</p>
+                            <h3 class="title"><%= totalpollsnumber %></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="card card-stats" >
+                        <div class="card-header card-options" data-background-color="purple">
+                            <a href="/mypolls">My Collection</a>
+                        </div>
+                        <div class="card-content">
+                           <p class="category"><br>Total</p>
+                            <h3 class="title"><%= totalmycollection %></h3>
+                        </div>
+                    </div>
+                </div>
 
-        <a href="/login" class="btn btn-default"><span class="fa fa-sign-in"></span> Login</a>
-        <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Signup</a>
-        <a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
-        <a href="/auth/twitter" class="btn btn-info"><span class="fa fa-twitter"></span> Twitter</a>
-        <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
-          
-        </div>  
-        
-        <a href="/createpoll" class="btn btn-default">Create Poll</a>
-        <a href="/mypolls" class="btn btn-default">My Collection</a>
-        <a href="/logout" class="btn btn-default">Logout</a>
-          
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="card card-stats" >
+                        <div class="card-header card-options" data-background-color="orange">
+                            <a href="/logout">Logout</a>
+                        </div>
+                        <div class="card-content">
+                            <p class="category"><br>See Ya</p>
+                            <h3 class="title"><a id="logoutB" href="/logout"><i class="fa fa-sign-out"></i></a></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
           
     <div class="text-center">
-            <h2>All Polls</h2>
+            
+    <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header" data-background-color="blue">
+                        <h4 class="title blueTitle">All Polls</h4>
+                    </div>
+    <div class="card-content table-responsive">
+                        <table class="table">
+                            <thead class="text-danger">
+                                <tr>
+            
+                                    
+                                </tr>
+                            </thead>
+    
      
     <% if (question.length > 0) { %>
-    <%    for (i=0; i < question.length; i++) { %>
-        <div class="pollsTable">
-        <a class="allPolls" href="/allpolls/<%= pollid[i] %>"><%= question[i] %></a>
-        </div>
-    <%    } %>
+    <tbody>
         
+    
+    <%    for (i=0; i < question.length; i++) { %>
+        <tr>
+        
+        <td><a class="allPolls" href="/allpolls/<%= pollid[i] %>"><%= question[i] %></a></td>
+       
+        </tr>
+    <%    } %>
+    
+    </tbody>    
     <% } %>
-    
-    
+                    </table>
+                  </div>
+                </div>
+            </div>
+                  
     </div>
 
      
