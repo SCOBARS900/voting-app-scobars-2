@@ -2,7 +2,8 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4 {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-weight: 300;
   line-height: 1.5em;
-  background-color: white;
+  background-color: aliceblue;
+    
 }
 
 
@@ -31,16 +32,22 @@ nav {
   margin-top: 10px;
   height: 480px;
   width: 480px;
-  
-  
 }
 
 .voteButtons {
+    border-radius: 20px;
     margin-bottom: 10px;
+    box-shadow: 0 12px 20px -10px rgba(216, 216, 216, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(208,208,208, 0.2);
+    font-size: 14px;
+    font-weight: 400;
 }
 
 .question {
     margin-bottom: 15px;
+}
+
+.btn-danger {
+    box-shadow: 0 12px 20px -10px rgba(244, 67, 54, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(244, 67, 54, 0.2);
 }
 
 
@@ -76,11 +83,11 @@ nav {
 //* Home Page *//
 
 .cardA {
-    width: 100%
+    width: 100%;
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
     border-radius: 3px;
     color: rgba(0,0,0, 0.87);
-    background: #fff;
+    background-color: white;
 }
 
 .cardA .card-header {
@@ -104,6 +111,7 @@ nav {
   margin-top: 100%;
 }
 .card .title {
+  background: #fff;
   margin-top: 0;
   margin-bottom: 5px;
 }
@@ -172,43 +180,8 @@ nav {
   margin-bottom: 0;
   color: rgba(255, 255, 255, 0.62);
 }
-.card .card-header.card-chart {
-  padding: 0;
-  min-height: 160px;
-}
-.card .card-header.card-chart + .content h4 {
-  margin-top: 0;
-}
-.card .card-header .ct-label {
-  color: rgba(255, 255, 255, 0.7);
-}
-.card .card-header .ct-grid {
-  stroke: rgba(255, 255, 255, 0.2);
-}
-.card .card-header .ct-series-a .ct-point,
-.card .card-header .ct-series-a .ct-line,
-.card .card-header .ct-series-a .ct-bar,
-.card .card-header .ct-series-a .ct-slice-donut {
-  stroke: rgba(255, 255, 255, 0.8);
-}
-.card .card-header .ct-series-a .ct-slice-pie,
-.card .card-header .ct-series-a .ct-area {
-  fill: rgba(255, 255, 255, 0.4);
-}
-.card .chart-title {
-  position: absolute;
-  top: 25px;
-  width: 100%;
-  text-align: center;
-}
-.card .chart-title h3 {
-  margin: 0;
-  color: #FFFFFF;
-}
-.card .chart-title h6 {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.4);
-}
+
+
 .card .card-footer {
   margin: 0 20px 10px;
   padding-top: 10px;
@@ -220,9 +193,7 @@ nav {
 .card .card-footer div {
   display: inline-block;
 }
-.card .card-footer .author {
-  color: #999999;
-}
+
 .card .card-footer .stats {
   line-height: 22px;
   color: #999999;
@@ -248,27 +219,8 @@ nav {
   top: 6px;
   line-height: 0;
 }
-.card .category-social .fa {
-  font-size: 24px;
-  position: relative;
-  margin-top: -4px;
-  top: 2px;
-  margin-right: 5px;
-}
-.card .author .avatar {
-  width: 30px;
-  height: 30px;
-  overflow: hidden;
-  border-radius: 50%;
-  margin-right: 5px;
-}
-.card .author a {
-  color: #3C4858;
-  text-decoration: none;
-}
-.card .author a .ripple-container {
-  display: none;
-}
+
+
 .card .table {
   margin-bottom: 0;
 }
@@ -306,6 +258,13 @@ nav {
   box-shadow: 0 12px 20px -10px rgba(216, 216, 216, 1), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(208,208,208,1);
 }
 
+.card [data-background-color="turquoise"] {
+  background: linear-gradient(60deg, #89ecda, #3bd6c6);
+  box-shadow: 0 12px 20px -10px rgba(216, 216, 216, 1), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(208,208,208,1);
+}
+
+
+
 
 .card [data-background-color] {
   color: #FFFFFF;
@@ -333,76 +292,8 @@ nav {
   height: 100px;
 }
 
-.card-nav-tabs .header-raised {
-  margin-top: -30px;
-}
-.card-nav-tabs .nav-tabs {
-  background: transparent;
-  padding: 0;
-}
-.card-nav-tabs .nav-tabs-title {
-  float: left;
-  padding: 10px 10px 10px 0;
-  line-height: 24px;
-}
 
-.card-plain {
-  background: transparent;
-  box-shadow: none;
-}
-.card-plain .card-header {
-  margin-left: 0;
-  margin-right: 0;
-}
-.card-plain .content {
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.card-plain .card-image {
-  margin: 0;
-  border-radius: 3px;
-}
-.card-plain .card-image img {
-  border-radius: 3px;
-}
 
-.iframe-container {
-  margin: 0 -20px 0;
-}
-.iframe-container iframe {
-  width: 100%;
-  height: 500px;
-  border: 0;
-  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
-}
-
-.card-profile,
-.card-testimonial {
-  margin-top: 30px;
-  text-align: center;
-}
-.card-profile .btn-just-icon.btn-raised,
-.card-testimonial .btn-just-icon.btn-raised {
-  margin-left: 6px;
-  margin-right: 6px;
-}
-.card-profile .card-avatar,
-.card-testimonial .card-avatar {
-  max-width: 130px;
-  max-height: 130px;
-  margin: -50px auto 0;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
-}
-.card-profile .card-avatar + .content,
-.card-testimonial .card-avatar + .content {
-  margin-top: 15px;
-}
-.card-profile.card-plain .card-avatar,
-.card-testimonial.card-plain .card-avatar {
-  margin-top: 0;
-}
 
 #mainTitle {
     font-weight:600;
@@ -483,7 +374,7 @@ nav {
 
 
 .card .table tr:hover {
-    background-color: floralwhite;
+    background-color: aliceblue;
 }
 
 
@@ -491,6 +382,7 @@ nav {
     text-decoration: none !important;
     color: black;
 }
+
 
 .card .card-content .cardInstructions p {
     font-size: 19px !important;
@@ -515,10 +407,21 @@ nav {
 
 .card .card-content .submitPoll {
     background-color: darkgray;
-    color: white;
+    color: white !important;
     font-size: 16px;
     font-weight: 500;
+    box-shadow: 0 12px 20px -10px rgba(216, 216, 216, 0.5), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(208,208,208,0.5);
 }
+
+.card .card-content .submitLogin {
+    width: 200px !important;
+}
+
+.card .card-content .submitSignup {
+    width: 200px !important;
+}
+
+
 
 .card .card-content .aboutHome {
     font-size: 22px;
@@ -533,8 +436,36 @@ nav {
 }
 
 
+.card .graphicContent {
+    width: 450px;
+    height: 450px;
+
+}
+
+.chart-container{
+    margin-top: 0;
+}
 
 
+.card .card-content .iconV {
+    width:48px;
+    height:48px; 
+    margin-left: 5px;
+}
 
+.card .card-content .votedA {
+    font-size: 18px;
+    font-weight: 600;
+    color: darkgray;
+}
 
+.card .card-header .turquoiseT {
+    background: linear-gradient(60deg, #89ecda, #3bd6c6);
+}
+
+.card .card-content .alert-danger {
+    background-color: white;
+    font-size: 16px;
+    color: red;
+}
 

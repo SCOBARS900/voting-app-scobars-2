@@ -47,16 +47,14 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/login', function(req, res, next) {
-  res.render('login.ejs', { message: req.flash('loginMessage') });
+  res.render('login.ejs', { message: req.flash('loginMessage'), totalpollsnumber: totalPollsN, totalmycollection: myCollectionFinal });
 });
 
 router.get('/signup', function(req, res) {
-  res.render('signup.ejs', { message: req.flash('signupMessage') });
+  res.render('signup.ejs', { message: req.flash('signupMessage'), totalpollsnumber: totalPollsN, totalmycollection: myCollectionFinal });
 });
 
-router.get('/profile', isLoggedIn, function(req, res) {
-  res.render('profile.ejs', { user: req.user });
-});
+
 
 router.get('/logout', function(req, res) {
   req.logout();
@@ -226,7 +224,7 @@ router.get('/allpolls/:specificpoll', function(req, res) {
            if (data.polls.voteUsers.length > 0) {
            for (z = 0; z < data.polls.voteUsers.length; z++) {
                if (data.polls.voteUsers[z].voteUserIp == ipU) {
-                  alreadyVote = true; 
+                  alreadyVote = false; 
                }    
            }
            }
@@ -260,7 +258,7 @@ router.post('/voteop', function(req, res) {
            if (data.polls.voteUsers.length > 0) {
            for (z = 0; z < data.polls.voteUsers.length; z++) {
                if (data.polls.voteUsers[z].voteUserIp == ipU) {
-                  alreadyVote = true;
+                  alreadyVote = false;
                }   
            }
    

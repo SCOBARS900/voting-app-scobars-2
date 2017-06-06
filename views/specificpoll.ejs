@@ -77,20 +77,22 @@
                         </form>
 
                         <% if(alreadyvote) { %> 
-                        <p>Already voted</p>
-                        <%  } %>
+                            <p class="votedA">Voted: <img class="iconV" src="/img/on1.png"></p>
+                        <%  } else { %>
+                            <p class="votedA">Voted: <img class="iconV" src="/img/off1.png"></p>
+                        <%  }  %>
 
                         <% if(userid != "unauthenticate") { %> 
                             <div>
                             <form action='/insertop' method="post">
                             <div class="form-group">
 
-                              <label for="newOption">New Option: </label>
-                              <input type="text" class="form-control" id="newOption" name="newOption" placeholder="Enter new option">
+                              <label class="category" for="newOption">New Option: </label>
+                              <input type="text" class="form-control" id="newOption" name="newOption" placeholder="Enter new option" maxlength="50">
 
 
                             </div>
-                            <input type="submit" value="Submit" class="btn btn-success submitButton">
+                            <input type="submit" value="Submit" class="btn" data-background-color="grey">
                             </form>
                             </div>
                         <%  } %>
@@ -111,20 +113,20 @@
                         
   </div>
       
-    <div class="col-sm-1 col-lg-1 col-md-1">
+    <div class="col-lg-1 col-md-1 col-sm-1">
     </div>
-    
-    
         
+
      <div class="chart-container col-lg-5 col-md-5 col-sm-5">
+     <div class="card">
+     <div class="card-content graphicContent">
     <canvas id="myChart"></canvas>
     </div>   
-        
+  
+         </div> 
+      </div>   
    </div> 
-    
-    
-    
-    
+
     <div id="votesNumberArray" class="hideme"><%= votesnumber %></div><br>
     <div id="votesTitleArray" class="hideme"><%= votestitle %></div>
     
