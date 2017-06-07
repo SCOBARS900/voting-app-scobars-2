@@ -5,9 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-
-
-var port = process.env.PORT || 3000;
+var app = express();
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -21,9 +19,18 @@ var users = require('./routes/users');
 
 require('dotenv').load();
 
-mongoose.connect(process.env.MONGO_URI);
+var db = process.env.MONGO_URI;
 
-var app = express();
+mongoose.connect(db, function(err){
+  if(err){
+   console.log(err);
+  }else {
+   console.log('mongoose connection is successful');
+  }
+ });
+
+
+
 
 
 app.set('views', path.join(__dirname, 'views'));
@@ -71,6 +78,10 @@ app.use(function(err, req, res, next) {
 });
 
 
-app.listen(port);
-
 module.exports = app;
+
+app.set('port', (process.env.PORT || 3000));
+
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});

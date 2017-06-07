@@ -196,7 +196,7 @@ router.get('/allpolls/:specificpoll', function(req, res) {
    optionsIdArray = [];
    allVotesNumber = [];
    allVotesTitle = [];
-   var alreadyVote = false;
+   alreadyVote = false;
    
     
     if (req.user != undefined) {
@@ -211,7 +211,22 @@ router.get('/allpolls/:specificpoll', function(req, res) {
        } else {
           questionTitle = data.polls.question;
           pollCreatorId = data.polls.userid;
-             
+            
+         if (data.polls.voteUsers.length > 0) {
+           for (z = 0; z < data.polls.voteUsers.length; z++) {
+               if (data.polls.voteUsers[z].voteUserIp == ipU) {
+                  alreadyVote = true; 
+               } 
+               if(currentUserId != "unauthenticate") {
+                   if(data.polls.voteUsers[z].voteUserId == currentUserId) {
+                       alreadyVote = true;
+                   }
+               }
+               
+               
+               
+           }
+           }  
            
           for (i = 0; i < data.polls.options.length; i++) {
              allOptions[i] = data.polls.options[i];
@@ -221,13 +236,7 @@ router.get('/allpolls/:specificpoll', function(req, res) {
            }
            
           
-           if (data.polls.voteUsers.length > 0) {
-           for (z = 0; z < data.polls.voteUsers.length; z++) {
-               if (data.polls.voteUsers[z].voteUserIp == ipU) {
-                  alreadyVote = false; 
-               }    
-           }
-           }
+           
            
        }
     
@@ -243,8 +252,7 @@ router.get('/allpolls/:specificpoll', function(req, res) {
 router.post('/voteop', function(req, res) {
    var optionID = req.body.polloutput; 
    var linkSpecificPoll = '/allpolls/' + currentPollId;
-   var alreadyVote = false;
-   
+
    var newVoteUserArray = [{
        voteUserIp: ipU,
        voteUserId: currentUserId,
@@ -258,8 +266,17 @@ router.post('/voteop', function(req, res) {
            if (data.polls.voteUsers.length > 0) {
            for (z = 0; z < data.polls.voteUsers.length; z++) {
                if (data.polls.voteUsers[z].voteUserIp == ipU) {
-                  alreadyVote = false;
-               }   
+                  alreadyVote = true;
+               }
+               if(currentUserId != "unauthenticate") {
+                   if(data.polls.voteUsers[z].voteUserId == currentUserId) {
+                       alreadyVote = true;
+                   }
+               }
+               
+               
+               
+               
            }
    
            }
